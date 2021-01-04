@@ -11,11 +11,13 @@ export default class App extends Component {
 
     state = {
         data: [
-            {label: 'Going to learn React', important: false, id: 'a1a1'},
-            {label: 'That is so good', important: false, id: 'a1a2'},
-            {label: 'I need a break...', important: false, id: 'a1a3'},
+            {label: 'Going to learn React', important: false, id: 1},
+            {label: 'That is so good', important: false, id: 2},
+            {label: 'I need a break...', important: false, id: 3},
         ]
     }
+
+    maxId = 4
 
     deleteItem = (id) => {
         this.setState(({data}) => {
@@ -26,6 +28,22 @@ export default class App extends Component {
 
             return {
                 data: newArray
+            }
+        })
+    } 
+
+    addItem = (body) => {
+        const newItem = {
+            label: body,
+            important: false,
+            id: this.maxId++
+        }
+
+        this.setState(({data}) => {
+            const newArr = [...data, newItem]
+
+            return {
+                data: newArr
             }
         })
     } 
@@ -41,7 +59,8 @@ export default class App extends Component {
                 <PostList 
                     posts={this.state.data}
                     onDelete={this.deleteItem} />
-                <PostAddForm/>
+                <PostAddForm
+                    onAdd={this.addItem} />
             </div>
         )
     }
