@@ -12,13 +12,11 @@ export default class App extends Component {
 
     state = {
         data: [
-            {label: 'Going to learn React', important: false, id: nextId(`id-${Date.now()}-`)},
-            {label: 'That is so good', important: false, id: nextId(`id-${Date.now()}-`)},
-            {label: 'I need a break...', important: false, id: nextId(`id-${Date.now()}-`)},
+            {label: 'Going to learn React', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
+            {label: 'That is so good', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
+            {label: 'I need a break...', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
         ]
-    }
-
-    
+    }   
 
     deleteItem = (id) => {
         this.setState(({data}) => {
@@ -48,9 +46,32 @@ export default class App extends Component {
             }
         })
     } 
+
+    onToggleProperty = (name, id) => {
+        this.setState(({data}) => {
+            const index = data.findIndex(elem => elem.id === id)
+
+            const old = data[index]
+            const newItem = {...old}
+            newItem[name] = !old[name]
+
+            const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)]
+
+            return {
+                data: newArr
+            }
+        })
+    } 
+
+    onToggleImportant = (id) => {
+        this.onToggleProperty('important', id)
+    }
+
+    onToggleLiked = (id) => {
+        this.onToggleProperty('like', id)
+    }
     
     render() {
-        console.log(this.state.data)
         return (
             <div className="app">
                 <AppHeader/>
@@ -60,7 +81,9 @@ export default class App extends Component {
                 </div>
                 <PostList 
                     posts={this.state.data}
-                    onDelete={this.deleteItem} />
+                    onDelete={this.deleteItem}
+                    onToggleImportant={this.onToggleImportant}
+                    onToggleLiked={this.onToggleLiked} />
                 <PostAddForm
                     onAdd={this.addItem} />
             </div>
