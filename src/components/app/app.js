@@ -15,7 +15,8 @@ export default class App extends Component {
             {label: 'Going to learn React', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
             {label: 'That is so good', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
             {label: 'I need a break...', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
-        ]
+        ],
+        term: ''
     }   
 
     deleteItem = (id) => {
@@ -70,12 +71,28 @@ export default class App extends Component {
     onToggleLiked = (id) => {
         this.onToggleProperty('like', id)
     }
+
+    searchPosts = (items, term) => {
+        if (term.length === 0) {
+            return items
+        }
+
+        return items.filter(item => {
+            return item.label.indexOf(term) > -1
+        })
+    }
+
+    onTermChange = (term) => {
+        this.setState({ term })
+    }
     
     render() {
-        const {data} = this.state
+        const {data, term} = this.state
 
         const liked = data.filter(item => item.like).length
         const allPosts = data.length
+
+        const visiblePosts = this.searchPosts(data, term)
 
         return (
             <div className="app">
@@ -83,11 +100,12 @@ export default class App extends Component {
                     liked={liked}
                     allPosts={allPosts}/>
                 <div className="search-panel d-flex">
-                    <SearchPanel/>
+                    <SearchPanel
+                        onTermChange={this.onTermChange} />
                     <PostStatusFilter/>
                 </div>
                 <PostList 
-                    posts={this.state.data}
+                    posts={visiblePosts}
                     onDelete={this.deleteItem}
                     onToggleImportant={this.onToggleImportant}
                     onToggleLiked={this.onToggleLiked} />
