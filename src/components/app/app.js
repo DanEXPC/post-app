@@ -16,7 +16,8 @@ export default class App extends Component {
             {label: 'That is so good', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
             {label: 'I need a break...', important: false, like: false, id: nextId(`id-${Date.now()}-`)},
         ],
-        term: ''
+        term: '',
+        filter: 'all'
     }   
 
     deleteItem = (id) => {
@@ -82,17 +83,28 @@ export default class App extends Component {
         })
     }
 
+    filterPosts = (items, filter) => {
+        switch (filter) {
+            case 'like': return items.filter(item => item.like)
+            default: return items
+        }
+    }
+
     onTermChange = (term) => {
         this.setState({ term })
     }
+
+    onFilterSelected = (filter) => {
+        this.setState({ filter })
+    }
     
     render() {
-        const {data, term} = this.state
+        const {data, term, filter} = this.state
 
         const liked = data.filter(item => item.like).length
         const allPosts = data.length
 
-        const visiblePosts = this.searchPosts(data, term)
+        const visiblePosts = this.filterPosts(this.searchPosts(data, term), filter)
 
         return (
             <div className="app">
@@ -102,7 +114,9 @@ export default class App extends Component {
                 <div className="search-panel d-flex">
                     <SearchPanel
                         onTermChange={this.onTermChange} />
-                    <PostStatusFilter/>
+                    <PostStatusFilter
+                        filter={filter}
+                        onFilterSelected={this.onFilterSelected} />
                 </div>
                 <PostList 
                     posts={visiblePosts}
