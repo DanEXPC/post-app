@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 
-import './post-status-filter.css'
+import styled from 'styled-components'
 
+const AppStatusFilter = styled.div``
+
+const FilterButton = styled.button``
 export default class PostStatusFilter extends Component {
 
     buttons = [
@@ -14,17 +17,17 @@ export default class PostStatusFilter extends Component {
         const buttons = this.buttons.map(({name, label}) => {
             const clazz = this.props.filter === name ? 'btn-info' : 'btn-outline-secondary'
             return (
-                <button key={name} 
+                <FilterButton key={name} 
                     type="button" 
                     onClick={() => this.props.onFilterSelected(name)}
                     className={`btn ${clazz}`}>{label}
-                    </button>
+                    </FilterButton>
             )
         })
         return (
-            <div className="btn-group">
+            <AppStatusFilter className="btn-group">
                {buttons}
-            </div>
+            </AppStatusFilter>
         )
     }
 }

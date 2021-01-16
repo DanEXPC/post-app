@@ -1,6 +1,17 @@
 import React, {Component} from 'react'
 
-import './post-add-form.css'
+import styled from 'styled-components'
+
+const BottomPanel = styled.form`
+    display: flex;
+    margin-top: 20px;
+`
+
+const NewPostLabel = styled.input`
+    width: auto;
+    flex-grow: 1;
+    margin-right: 3px;
+`
 
 export default class PostAddForm extends Component {
 
@@ -22,13 +33,12 @@ export default class PostAddForm extends Component {
 
     render () {
         return (
-            <form 
-                className="bottom-panel d-flex"
+            <BottomPanel
                 onSubmit={this.onSubmit}>
-                <input
+                <NewPostLabel
                     type="text"
                     placeholder="What's up?"
-                    className="form-control new-post-label"
+                    className="form-control"
                     onChange={this.onValueChange}
                     value={this.state.text}
                 />
@@ -36,7 +46,7 @@ export default class PostAddForm extends Component {
                     type="submit"
                     className="btn btn-outline-secondary">
                     Post</button>
-            </form>
+            </BottomPanel>
         )
     }
 } 

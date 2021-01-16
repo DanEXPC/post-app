@@ -6,8 +6,17 @@ import PostList from '../post-list'
 import PostAddForm from '../post-add-form'
 import nextId from "react-id-generator";
 
-import './app.css'
+import styled from 'styled-components'
 
+const AppBlock = styled.div`
+    margin: 0 auto;
+    max-width: 800px;
+`
+
+const SearchPanelWrapper = styled.div`
+    display: flex;    
+    margin: 1rem 0;
+`
 export default class App extends Component {
 
     state = {
@@ -107,17 +116,17 @@ export default class App extends Component {
         const visiblePosts = this.filterPosts(this.searchPosts(data, term), filter)
 
         return (
-            <div className="app">
+            <AppBlock>
                 <AppHeader
                     liked={liked}
                     allPosts={allPosts}/>
-                <div className="search-panel d-flex">
+                <SearchPanelWrapper>
                     <SearchPanel
                         onTermChange={this.onTermChange} />
                     <PostStatusFilter
                         filter={filter}
                         onFilterSelected={this.onFilterSelected} />
-                </div>
+                </SearchPanelWrapper>
                 <PostList 
                     posts={visiblePosts}
                     onDelete={this.deleteItem}
@@ -125,7 +134,7 @@ export default class App extends Component {
                     onToggleLiked={this.onToggleLiked} />
                 <PostAddForm
                     onAdd={this.addItem} />
-            </div>
+            </AppBlock>
         )
     }
     

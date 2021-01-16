@@ -1,7 +1,16 @@
 import React from 'react'
 import PostListItem from '../post-list-item'
 
-import './post-list.css'
+import styled from 'styled-components'
+
+const AppList = styled.ul`
+    margin-top: 50px;
+`
+
+const ListGroupItem = styled.li`
+    padding: 20px 35px 10px 35px;
+    margin-top: 10px;
+`
 
 const PostList = ({posts, onDelete, onToggleImportant, onToggleLiked}) => {
 
@@ -10,13 +19,13 @@ const PostList = ({posts, onDelete, onToggleImportant, onToggleLiked}) => {
         if ( typeof item === 'object' && !isEmpty(item) ){
             const {id, ...itemProps} = item
             return (
-                <li key={id} className='list-group-item'>
+                <ListGroupItem key={id} className='list-group-item'>
                     <PostListItem 
                         {...itemProps}
                         onDelete={() => onDelete(id)}
                         onToggleImportant={() => onToggleImportant(id)}
                         onToggleLiked={() => onToggleLiked(id)} />
-                </li>
+                </ListGroupItem>
             )
         }
         return null
@@ -27,9 +36,9 @@ const PostList = ({posts, onDelete, onToggleImportant, onToggleLiked}) => {
     }
 
     return (
-        <ul className="app-list list-group">
+        <AppList className="list-group">
             {elements}
-        </ul>
+        </AppList>
     )
 }
 

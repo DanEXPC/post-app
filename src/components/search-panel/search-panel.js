@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
-import './search-panel.css'
+import styled from 'styled-components'
 
+const SearchAppInput = styled.input`
+    width: auto;
+    flex-grow: 1;
+    margin-right: 3px;
+`
 export default class SearchPanel extends Component {
 
     state = {
@@ -16,8 +21,8 @@ export default class SearchPanel extends Component {
 
     render() {
         return (
-            <input
-                className="form-control search-input"
+            <SearchAppInput
+                className="form-control"
                 type="text"
                 placeholder="search by posts"
                 onChange={this.onTermChange}
